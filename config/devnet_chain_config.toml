@@ -8,9 +8,9 @@ v_0_10_0_activation = 0
 v_0_11_0_activation = 0
 
 # 18446744073709551615 deactivate
-staking_activation = 3
+staking_activation = 18446744073709551615
 # 18446744073709551615 deactivate
-staking_rewards_activation = 3
+staking_rewards_activation = 18446744073709551615
 
 execution_v_one_activation = 0
 execution_v_two_activation = 0
