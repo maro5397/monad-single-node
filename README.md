@@ -83,3 +83,43 @@ This command completely removes the data directory (`monad_data`) and all its co
 1. Checks if the `monad_data` directory exists.
 2. Prompts you for confirmation to prevent accidental deletion.
 3. If you confirm by typing `y` and pressing Enter, it permanently deletes the entire `monad_data` directory.
+
+## execution monad clients
+
+### monad-execution
+
+```bash
+$MONAD_ROOT/monad \
+  --chain monad_devnet \
+  --db ./data/node/triedb/test.db \
+  --block_db ./data/node/ledger \
+  --statesync ./data/node/statesync.sock \
+  --log_level INFO
+```
+
+### monad-consensus
+
+```bash
+$MONAD_ROOT/monad-node \
+  --secp-identity ./config/id-secp \
+  --bls-identity ./config/id-bls \
+  --node-config ./config/node.toml \
+  --devnet-chain-config-override ./config/devnet_chain_config.toml \
+  --forkpoint-config ./data/forkpoint/forkpoint.toml \
+  --validators-path ./data/validators/validators.toml \
+  --statesync-ipc-path ./data/node/statesync.sock \
+  --wal-path ./data/node/wal \
+  --mempool-ipc-path ./data/node/mempool.sock \
+  --control-panel-ipc-path ./data/node/controlpanel.sock \
+  --ledger-path ./data/node/ledger \
+  --triedb-path ./data/node/triedb \
+```
+
+### monad-rpc
+
+```bash
+$MONAD_ROOT/monad-rpc \
+	--node-config ./config/node.toml \
+	--ipc-path ./data/node/mempool.sock \
+	--triedb-path ./data/node/triedb
+```
