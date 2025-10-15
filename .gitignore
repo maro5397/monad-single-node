@@ -1,0 +1,8 @@
+data/
+monad
+monad_cli
+monad_mpt
+monad-keystore
+monad-node
+monad-rpc
+sign-name-record
