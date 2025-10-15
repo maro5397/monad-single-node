@@ -59,16 +59,17 @@ This command sets up the entire development environment from scratch. It is the 
 **What it does:**
 
 1. Sets the project's root directory (`MONAD_ROOT`) to the current directory.
-2. Creates a `monad_data` directory to store all blockchain data and configurations.
+2. Creates a `data` directory to store all blockchain data and configurations.
 3. Creates the required subdirectories (`node/ledger`, `node/triedb`).
-4. Copies the genesis configuration file (`config/forkpoint.genesis.toml`) into `monad_data` and renames it to `forkpoint.toml`.
-5. Pre-allocates a 100GB sparse file for the TrieDB to ensure sufficient space.
-6. Initializes the TrieDB using the `monad_mpt` binary.
-7. Writes the genesis state to the database using the `monad` binary.
+4. Copies the genesis configuration file (`config/forkpoint.genesis.toml`) into `data/forkpoint` and renames it to `forkpoint.toml`.
+5. Copies the genesis configuration file (`config/validators.toml`) into `data/validators` and renames it to `validators.toml`.
+6. Pre-allocates a 100GB sparse file for the TrieDB to ensure sufficient space.
+7. Initializes the TrieDB using the `monad_mpt` binary.
+8. Writes the genesis state to the database using the `monad` binary.
 
 ### `del`
 
-This command completely removes the data directory (`monad_data`) and all its contents. Use this to reset your local environment.
+This command completely removes the data directory (`data`) and all its contents. Use this to reset your local environment.
 
 ⚠️ **Warning:** This action is irreversible and will delete all blockchain data, logs, and configuration files created by the `init` command.
 
@@ -80,9 +81,9 @@ This command completely removes the data directory (`monad_data`) and all its co
 
 **What it does:**
 
-1. Checks if the `monad_data` directory exists.
+1. Checks if the `data` directory exists.
 2. Prompts you for confirmation to prevent accidental deletion.
-3. If you confirm by typing `y` and pressing Enter, it permanently deletes the entire `monad_data` directory.
+3. If you confirm by typing `y` and pressing Enter, it permanently deletes the entire `data` directory.
 
 ## execution monad clients
 
@@ -112,7 +113,7 @@ This command completely removes the data directory (`monad_data`) and all its co
   --mempool-ipc-path ./data/node/mempool.sock \
   --control-panel-ipc-path ./data/node/controlpanel.sock \
   --ledger-path ./data/node/ledger \
-  --triedb-path ./data/node/triedb \
+  --triedb-path ./data/node/triedb
 ```
 
 ### monad-rpc
