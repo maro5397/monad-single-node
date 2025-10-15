@@ -62,7 +62,7 @@ run_init() {
   cp "$MONAD_ROOT/config/validators.toml" "$VOL_ROOT/validators/validators.toml"
   echo " - Genesis config file prepared at '$VOL_ROOT/forkpoint/forkpoint.toml', '$VOL_ROOT/validators/validators.toml'."
   echo ""
-  DB_PATH="$VOL_ROOT/node/triedb/monad.db"
+  DB_PATH="$VOL_ROOT/node/triedb/test.db"
   echo "3. Creating a 100GB sparse file for the TrieDB."
   if [ ! -f "$DB_PATH" ]; then
       truncate -s 100G "$DB_PATH"
