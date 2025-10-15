@@ -1,0 +1,17 @@
+chain_id = 20143
+epoch_length = 100
+epoch_start_delay = 10
+
+v_0_7_0_activation = 0
+v_0_8_0_activation = 0
+v_0_10_0_activation = 0
+v_0_11_0_activation = 0
+
+# 18446744073709551615 deactivate
+staking_activation = 3
+# 18446744073709551615 deactivate
+staking_rewards_activation = 3
+
+execution_v_one_activation = 0
+execution_v_two_activation = 0
+execution_v_four_activation = 0
