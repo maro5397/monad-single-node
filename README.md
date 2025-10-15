@@ -122,5 +122,6 @@ This command completely removes the data directory (`data`) and all its contents
 ./monad-rpc \
 	--node-config ./config/node.toml \
 	--ipc-path ./data/node/mempool.sock \
-	--triedb-path ./data/node/triedb
+	--triedb-path ./data/node/triedb \
+  --otel-endpoint http://localhost:4317
 ```
