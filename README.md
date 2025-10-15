@@ -1,0 +1,85 @@
+# Monad Environment Management Script
+
+This document describes the usage of the `setup.sh` script, a tool designed to automate the setup and teardown of a local Monad development environment. It simplifies the process of initializing the necessary directory structure and data files, as well as cleaning them up.
+
+## Prerequisites
+
+Before running this script, ensure that:
+
+- You have compiled binaries below.
+> `monad`, `monad_mpt`, `monad_cli`, `monad-keystore`, `monad-node`, `monad-rpc`, `sign-name-record`
+- Or put monad-bft repository at same position of this repository then use copy command
+
+## Usage
+
+First, you need to make the script executable. You only need to do this once.
+
+```Bash
+chmod +x setup.sh
+```
+
+After that, you can run the script with one of the available commands.
+
+### General Syntax
+
+```Bash
+./setup.sh [command]
+```
+## Commands
+
+The script provides three main commands: `copy`, `init`, and `del`.
+
+### `copy`
+
+This command finds and copies all required Monad binaries from the `monad-bft` project into your current project directory. This should be the first step in setting up the environment.
+
+**Action:**
+
+```Bash
+./setup.sh copy
+```
+
+**What it does:**
+
+1. Automatically detects if you have a `debug` or `release` build in the `../monad-bft/target` directory.
+2. Copies the Rust-based binaries (`monad-node`, `monad-rpc`, etc.) from the detected build path.
+3. Copies the C++ based binaries (`monad`, `monad-mpt`, etc.) from the `../monad-bft/monad-cxx/monad-execution/build` directory.
+4. Places all binaries in the root of the current project, making them ready for the `init` command.
+
+### `init`
+
+This command sets up the entire development environment from scratch. It is the ideal starting point for a new setup.
+
+**Action:**
+
+```Bash
+`./setup.sh init`
+```
+
+**What it does:**
+
+1. Sets the project's root directory (`MONAD_ROOT`) to the current directory.
+2. Creates a `monad_data` directory to store all blockchain data and configurations.
+3. Creates the required subdirectories (`node/ledger`, `node/triedb`).
+4. Copies the genesis configuration file (`config/forkpoint.genesis.toml`) into `monad_data` and renames it to `forkpoint.toml`.
+5. Pre-allocates a 100GB sparse file for the TrieDB to ensure sufficient space.
+6. Initializes the TrieDB using the `monad_mpt` binary.
+7. Writes the genesis state to the database using the `monad` binary.
+
+### `del`
+
+This command completely removes the data directory (`monad_data`) and all its contents. Use this to reset your local environment.
+
+⚠️ **Warning:** This action is irreversible and will delete all blockchain data, logs, and configuration files created by the `init` command.
+
+**Action:**
+
+```Bash
+`./setup.sh del`
+```
+
+**What it does:**
+
+1. Checks if the `monad_data` directory exists.
+2. Prompts you for confirmation to prevent accidental deletion.
+3. If you confirm by typing `y` and pressing Enter, it permanently deletes the entire `monad_data` directory.
