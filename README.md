@@ -89,7 +89,7 @@ This command completely removes the data directory (`monad_data`) and all its co
 ### monad-execution
 
 ```bash
-$MONAD_ROOT/monad \
+./monad \
   --chain monad_devnet \
   --db ./data/node/triedb/test.db \
   --block_db ./data/node/ledger \
@@ -100,7 +100,7 @@ $MONAD_ROOT/monad \
 ### monad-consensus
 
 ```bash
-$MONAD_ROOT/monad-node \
+./monad-node \
   --secp-identity ./config/id-secp \
   --bls-identity ./config/id-bls \
   --node-config ./config/node.toml \
@@ -118,7 +118,7 @@ $MONAD_ROOT/monad-node \
 ### monad-rpc
 
 ```bash
-$MONAD_ROOT/monad-rpc \
+./monad-rpc \
 	--node-config ./config/node.toml \
 	--ipc-path ./data/node/mempool.sock \
 	--triedb-path ./data/node/triedb
