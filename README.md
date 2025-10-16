@@ -113,7 +113,9 @@ This command completely removes the data directory (`data`) and all its contents
   --mempool-ipc-path ./data/node/mempool.sock \
   --control-panel-ipc-path ./data/node/controlpanel.sock \
   --ledger-path ./data/node/ledger \
-  --triedb-path ./data/node/triedb
+  --triedb-path ./data/node/triedb \
+  --otel-endpoint http://localhost:4317 \
+  --record-metrics-interval-seconds 5
 ```
 
 ### monad-rpc
