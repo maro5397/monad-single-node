@@ -3,3 +3,8 @@
   become: yes
   roles:
     - dependency
+
+- name: monitoring
+  hosts: measurement-tool
+  roles:
+    - monitor
