@@ -28,7 +28,7 @@ PIDS=("$@")
 
 # --- Setup Log Directory and Files ---
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-LOG_DIR="monitoring_logs_${TIMESTAMP}"
+LOG_DIR="./monitoring_logs/monitoring_logs_${TIMESTAMP}"
 mkdir -p "$LOG_DIR"
 
 if [ $? -ne 0 ]; then
