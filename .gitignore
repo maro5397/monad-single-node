@@ -6,3 +6,5 @@ monad-keystore
 monad-node
 monad-rpc
 sign-name-record
+
+monitoring_logs/
