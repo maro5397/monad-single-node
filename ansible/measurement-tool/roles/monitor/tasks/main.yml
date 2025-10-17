@@ -24,30 +24,27 @@
   args:
     chdir: "{{ working_dir }}"
 
-- name: Find the generated log directory in the monad node path
-  ansible.builtin.find:
-    paths: "{{ working_dir }}"
-    patterns: "monitoring_logs_*"
-    file_type: directory
-  register: found_log_dir
-
-- name: Download the log directory to the local machine
-  when: found_log_dir.matched > 0
+- name: Download the log directory to the local machine using scp
   block:
-    - name: Fetch the directory
-      ansible.builtin.fetch:
-        src: "{{ found_log_dir.files[0].path }}/"
-        dest: "{{ local_log_save_path }}/"
-        flat: no
+    - name: Ensure destination directory exists on the local machine
+      ansible.builtin.file:
+        path: "{{ local_log_save_path }}"
+        state: directory
+        mode: '0755'
+      delegate_to: localhost
+      run_once: true
 
-    - name: Print the path of the downloaded logs
-      ansible.builtin.debug:
-        msg: "Logs have been saved to '{{ local_log_save_path }}/{{ inventory_hostname }}'"
+    - name: Copy the log directory from remote to local via scp
+      ansible.builtin.shell:
+        cmd: >
+          scp -r -i {{ ansible_ssh_private_key_file }} 
+          {{ ansible_user }}@{{ ansible_host }}:{{ working_dir }}/monitoring_logs
+          {{ local_log_save_path }}/
+      delegate_to: localhost
 
 - name: Clean up the log directory on the remote server
   when:
-    - found_log_dir.matched > 0
     - cleanup_remote_logs
   ansible.builtin.file:
-    path: "{{ found_log_dir.files[0].path }}"
+    path: "{{ working_dir }}/monitoring_logs"
     state: absent
