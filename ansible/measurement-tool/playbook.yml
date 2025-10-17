@@ -1,0 +1,5 @@
+- name: install dependency
+  hosts: measurement-tool
+  become: yes
+  roles:
+    - dependency

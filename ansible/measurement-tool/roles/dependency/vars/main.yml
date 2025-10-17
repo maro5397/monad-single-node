@@ -1,0 +1,3 @@
+repo_url: "https://github.com/maro5397/monad-single-node"
+repo_dest: "/home/{{ ansible_user }}/monad-single-node"
+setup_script: "process-monitor.sh"

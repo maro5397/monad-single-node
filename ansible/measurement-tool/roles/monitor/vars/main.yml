@@ -1,0 +1,17 @@
+---
+# vars file for monitor
+monitoring_duration: 60
+remote_monitor_script_path: "/home/ubuntu/monad-single-node/process-monitor.sh"
+working_dir: "/home/ubuntu/monad-single-node"
+
+local_log_save_path: "~/monad-single-node/report"
+
+services:
+  - monad-bft
+  - monad-execution
+  - monad-rpc
+  # - monad-bft-cpu
+  # - monad-execution-cpu
+  # - monad-rpc-cpu
+
+cleanup_remote_logs: true

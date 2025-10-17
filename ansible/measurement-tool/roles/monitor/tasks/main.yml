@@ -1,0 +1,53 @@
+---
+# tasks file for monitor
+
+- name: Get PID for each Monad service
+  ansible.builtin.shell: "systemctl status {{ item }} | grep 'Main PID' | awk '{print $3}'"
+  loop: "{{ services }}"
+  register: service_pids
+  changed_when: false
+  failed_when: service_pids.rc != 0 and 'could not be found' not in service_pids.stderr
+
+- name: Create a list of fetched PIDs
+  ansible.builtin.set_fact:
+    pids_to_monitor: "{{ service_pids.results | map(attribute='stdout') | list }}"
+
+- name: Check if there are valid PIDs to monitor
+  ansible.builtin.fail:
+    msg: "No running Monad services found to monitor."
+  when: pids_to_monitor | reject('==', '') | list | length == 0
+
+- name: Execute the monitoring script in the correct directory
+  ansible.builtin.command: >
+    {{ remote_monitor_script_path }} {{ monitoring_duration }} {{ pids_to_monitor | join(' ') }}
+  register: monitor_script_output
+  args:
+    chdir: "{{ working_dir }}"
+
+- name: Find the generated log directory in the monad node path
+  ansible.builtin.find:
+    paths: "{{ working_dir }}"
+    patterns: "monitoring_logs_*"
+    file_type: directory
+  register: found_log_dir
+
+- name: Download the log directory to the local machine
+  when: found_log_dir.matched > 0
+  block:
+    - name: Fetch the directory
+      ansible.builtin.fetch:
+        src: "{{ found_log_dir.files[0].path }}/"
+        dest: "{{ local_log_save_path }}/"
+        flat: no
+
+    - name: Print the path of the downloaded logs
+      ansible.builtin.debug:
+        msg: "Logs have been saved to '{{ local_log_save_path }}/{{ inventory_hostname }}'"
+
+- name: Clean up the log directory on the remote server
+  when:
+    - found_log_dir.matched > 0
+    - cleanup_remote_logs
+  ansible.builtin.file:
+    path: "{{ found_log_dir.files[0].path }}"
+    state: absent

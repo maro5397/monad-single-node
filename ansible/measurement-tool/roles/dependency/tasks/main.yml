@@ -1,0 +1,15 @@
+---
+# tasks file for dependency
+
+- name: 1. Clone the monad-single-node repository
+  ansible.builtin.git:
+    repo: "{{ repo_url }}"
+    dest: "{{ repo_dest }}"
+    version: main
+  tags: ['always']
+
+- name: 2. Ensure the setup script is executable
+  ansible.builtin.file:
+    path: "{{ repo_dest }}/{{ setup_script }}"
+    mode: '0755'
+  tags: ['always']
