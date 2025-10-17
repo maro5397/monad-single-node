@@ -60,11 +60,10 @@ for PID in "${PIDS[@]}"; do
     MEM_TMP_FILE="${LOG_DIR}/mem_${PID}.tmp"
     TMP_FILES+=("$CPU_TMP_FILE" "$MEM_TMP_FILE")
 
-    # -u: CPU usage, -r: Memory usage
-    # Run for DURATION seconds with a 1-second interval
-    # tee: a-ppend to file and also show on screen
-    pidstat -p "$PID" -u 1 "$DURATION" | tee -a "$CPU_TMP_FILE" &
-    pidstat -p "$PID" -r 1 "$DURATION" | tee -a "$MEM_TMP_FILE" &
+    # FIX: Prepend LC_ALL=C to force a standard, locale-independent output format.
+    # This ensures consistent column positions on any system.
+    LC_ALL=C pidstat -p "$PID" -u 1 "$DURATION" | tee -a "$CPU_TMP_FILE" &
+    LC_ALL=C pidstat -p "$PID" -r 1 "$DURATION" | tee -a "$MEM_TMP_FILE" &
 done
 
 # Wait for all background pidstat processes to finish
@@ -90,10 +89,10 @@ for PID in "${PIDS[@]}"; do
         continue # Skip if the temp file was not created (e.g., invalid PID)
     fi
 
-    # Calculate CPU stats using awk (%CPU is the 8th column)
+    # PID is in column 3 (%CPU is in column 8).
     CPU_STATS=$(awk '
-        # Filter for data lines only (start with a number, PID matches)
-        $1 ~ /^[0-9]/ && $4 == pid {
+        # Filter for data lines only (start with a number, PID matches in column 3)
+        $1 ~ /^[0-9]/ && $3 == pid {
             sum += $8;
             count++;
             if ($8 > max) max = $8;
@@ -107,9 +106,9 @@ for PID in "${PIDS[@]}"; do
             }
         }' pid="$PID" "${LOG_DIR}/cpu_${PID}.tmp")
 
-    # Calculate memory stats using awk (RSS is the 7th column, in kB)
+    # PID is in column 3 (RSS is in column 7).
     MEM_STATS=$(awk '
-        $1 ~ /^[0-9]/ && $4 == pid {
+        $1 ~ /^[0-9]/ && $3 == pid {
             sum += $7;
             count++;
             if ($7 > max) max = $7;
