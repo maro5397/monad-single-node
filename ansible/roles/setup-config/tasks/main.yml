@@ -1,0 +1,25 @@
+---
+# tasks file for setup-config
+
+- name: 1. Clone the monad-single-node repository
+  ansible.builtin.git:
+    repo: "{{ repo_url }}"
+    dest: "{{ repo_dest }}"
+    version: main
+  tags: ['always']
+
+- name: 2. Ensure the setup script is executable
+  ansible.builtin.file:
+    path: "{{ repo_dest }}/{{ setup_script }}"
+    mode: '0755'
+  tags: ['always']
+
+- name: 3. Run cleanup script (del)
+  ansible.builtin.shell:
+    cmd: "echo 'y' | ./{{ setup_script }} del"
+    chdir: "{{ repo_dest }}"
+
+- name: 4. Run initialization script (init)
+  ansible.builtin.command:
+    cmd: "./{{ setup_script }} init"
+    chdir: "{{ repo_dest }}"

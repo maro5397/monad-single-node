@@ -1,0 +1,23 @@
+- name: install dependency
+  hosts: validator
+  become: yes
+  roles:
+    - dependency
+    - setup-systemd
+
+- name: setup monitoring system
+  hosts: validator
+  roles:
+    - setup-monitoring
+
+- name: setup disk
+  hosts: validator
+  become: yes
+  roles:
+    - disk-setting
+
+- name: start node
+  hosts: validator
+  roles:
+    - setup-config
+    - start-systemd

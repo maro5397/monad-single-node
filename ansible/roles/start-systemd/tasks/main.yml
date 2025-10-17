@@ -1,0 +1,10 @@
+---
+# tasks file for start-systemd
+- name: 1. Start services
+  ansible.builtin.systemd:
+    name: "{{ item.item }}"
+    state: started
+    enabled: no
+    daemon_reload: yes
+  loop: "{{ services }}"
+  become: yes

@@ -1,0 +1,24 @@
+---
+# tasks file for setup-systemd
+- name: 1. Create systemd service files
+  ansible.builtin.template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ service_names }}"
+  register: template_results
+
+- name: 1-1. Set a fact with the list of services
+  ansible.builtin.set_fact:
+    services: "{{ template_results.results }}"
+
+- name: 2. Ensure service is stoped and enabled
+  ansible.builtin.systemd:
+    name: "{{ item.item }}"
+    state: stopped
+    enabled: no
+    daemon_reload: yes
+  loop: "{{ template_results.results }}"
+  become: yes

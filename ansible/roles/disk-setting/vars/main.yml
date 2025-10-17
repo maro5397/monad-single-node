@@ -1,0 +1,4 @@
+---
+# vars file for disk-setting
+
+triedb_drive: /dev/nvme0n1

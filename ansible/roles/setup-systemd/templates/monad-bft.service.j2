@@ -1,0 +1,39 @@
+[Unit]
+Description="Service file for Monad BFT"
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/monad-single-node/monad-node \
+    --secp-identity /home/ubuntu/monad-single-node/config/id-secp \
+    --bls-identity /home/ubuntu/monad-single-node/config/id-bls \
+    --node-config /home/ubuntu/monad-single-node/config/node.toml \
+    --devnet-chain-config-override /home/ubuntu/monad-single-node/config/devnet_chain_config.toml \
+    --forkpoint-config /home/ubuntu/monad-single-node/data/forkpoint/forkpoint.toml \
+    --validators-path /home/ubuntu/monad-single-node/data/validators/validators.toml \
+    --statesync-ipc-path /home/ubuntu/monad-single-node/data/node/statesync.sock \
+    --wal-path /home/ubuntu/monad-single-node/data/node/wal \
+    --mempool-ipc-path /home/ubuntu/monad-single-node/data/node/mempool.sock \
+    --control-panel-ipc-path /home/ubuntu/monad-single-node/data/node/controlpanel.sock \
+    --ledger-path /home/ubuntu/monad-single-node/data/node/ledger \
+    --triedb-path /dev/triedb \
+    --statesync-sq-thread-cpu 8 \
+    --otel-endpoint http://localhost:4317 \
+    --record-metrics-interval-seconds 5
+Environment="RUST_LOG=debug,h2=warn,tower=warn,opentelemetry_sdk=warn,opentelemetry-otlp=warn"
+Restart=no
+User=ubuntu
+Group=ubuntu
+AllowedCPUs=8-11
+CPUAffinity=8,9,10,11
+DeviceAllow=/dev/triedb rw
+LimitNOFILE=1048576
+# Hugemem configs below
+LimitMEMLOCK=infinity
+MemoryDenyWriteExecute=false
+#SystemCallFilter=~@memlock
+ProtectKernelModules=no
+ProtectKernelLogs=no
+
+[Install]
+WantedBy=multi-user.target

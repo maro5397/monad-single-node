@@ -1,0 +1,9 @@
+---
+# vars file for start-systemd
+service_names:
+  - monad-bft
+  - monad-execution
+  - monad-rpc
+  # - monad-bft-cpu
+  # - monad-execution-cpu
+  # - monad-rpc-cpu

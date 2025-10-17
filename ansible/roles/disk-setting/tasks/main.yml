@@ -1,0 +1,57 @@
+---
+# tasks file for disk-setting
+
+- name: 1. Create a GPT partition table and a single partition
+  community.general.parted:
+    device: "{{ triedb_drive }}"
+    label: gpt
+    number: 1
+    part_end: 100%
+    state: present
+  register: parted_result
+
+- name: 2. Get the PARTUUID of the new partition
+  shell: "lsblk -o PARTUUID $TRIEDB_DRIVE | tail -n 1"
+  register: partuuid_result
+  changed_when: false
+  when: parted_result.changed
+
+- name: 3. Create a udev rule for a persistent symlink
+  copy:
+    dest: /etc/udev/rules.d/99-triedb.rules
+    content: 'ENV{ID_PART_ENTRY_UUID}=="{{ partuuid_result.stdout }}", MODE="0666", SYMLINK+="triedb"'
+  when: partuuid_result.stdout is defined
+
+- name: 4. Reload udev rules and trigger new events
+  block:
+    - name: Reload udev rules from disk
+      command: udevadm control --reload
+      changed_when: false
+
+    - name: Trigger udev to process new rules
+      command: udevadm trigger
+      changed_when: false
+
+- name: 5. Ensure correct permissions on the symlink
+  pause:
+    seconds: 2
+- file:
+    path: /dev/triedb
+    mode: '0666'
+
+- name: 6. Check the LBA format in use (for information)
+  shell: "nvme id-ns -H {{ triedb_drive }} | grep 'LBA Format' | grep 'in use'"
+  register: lba_format_result
+  changed_when: false
+
+- name: Display LBA format
+  debug:
+    msg: "LBA Format Info: {{ lba_format_result.stdout }}"
+
+- name: 7. Configure 1GB hugepages
+  ansible.builtin.shell: 'echo 4 > /sys/devices/system/node/node0/hugepages/hugepages-1048576kB/nr_hugepages'
+  changed_when: false
+
+- name: 8. Configure 2MB hugepages
+  ansible.builtin.shell: 'echo 2048 > /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages'
+  changed_when: false

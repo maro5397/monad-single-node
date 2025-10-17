@@ -1,0 +1,9 @@
+---
+# tasks file for dependency
+
+- name: Install basic utilities
+  ansible.builtin.apt:
+    name:
+      - nvme-cli
+    state: present
+    update_cache: yes
