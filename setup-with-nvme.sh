@@ -121,6 +121,7 @@ run_copy() {
   copy_binary "$BFT_SRC_PATH/monad-rpc" "$MONAD_ROOT"
   copy_binary "$BFT_SRC_PATH/monad-node" "$MONAD_ROOT"
   copy_binary "$BFT_SRC_PATH/examples/sign-name-record" "$MONAD_ROOT"
+  copy_binary "$BFT_SRC_PATH/examples/txgen" "$MONAD_ROOT"
   echo ""
 
   # --- 3. Copy binaries from monad-cxx ---
