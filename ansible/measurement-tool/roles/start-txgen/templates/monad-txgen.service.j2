@@ -1,0 +1,23 @@
+[Unit]
+Description="Service file for Monad txgen"
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/monad-single-node/txgen \
+    --config-file /home/ubuntu/monad-single-node/sequential-phrase.json
+Environment="RUST_LOG=info"
+Restart=no
+User=ubuntu
+Group=ubuntu
+AllowedCPUs=15
+LimitNOFILE=1048576
+# Hugemem configs below
+LimitMEMLOCK=infinity
+MemoryDenyWriteExecute=false
+#SystemCallFilter=~@memlock
+ProtectKernelModules=no
+ProtectKernelLogs=no
+
+[Install]
+WantedBy=multi-user.target

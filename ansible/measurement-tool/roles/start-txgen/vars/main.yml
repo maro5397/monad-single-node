@@ -1,0 +1,6 @@
+---
+# vars file for start-txgen
+working_dir: "/home/ubuntu/monad-single-node"
+
+service_names:
+  - monad-txgen

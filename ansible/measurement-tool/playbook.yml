@@ -1,8 +1,12 @@
 - name: install dependency
-  hosts: measurement-tool
   become: yes
   roles:
     - dependency
+
+- name: start txgen
+  hosts: txgen
+  roles:
+    - start-txgen
 
 - name: monitoring
   hosts: measurement-tool

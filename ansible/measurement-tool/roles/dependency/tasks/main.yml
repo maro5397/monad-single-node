@@ -8,7 +8,13 @@
     version: main
   tags: ['always']
 
-- name: 2. Ensure the setup script is executable
+- name: 2. Ensure the process_monitor script is executable
+  ansible.builtin.file:
+    path: "{{ repo_dest }}/{{ process_monitor_scrpit }}"
+    mode: '0755'
+  tags: ['always']
+
+- name: 3. Ensure the setup script is executable
   ansible.builtin.file:
     path: "{{ repo_dest }}/{{ setup_script }}"
     mode: '0755'

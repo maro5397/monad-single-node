@@ -1,0 +1,43 @@
+---
+# tasks file for start-txgen
+- name: 1. Run copy script (copy)
+  ansible.builtin.command:
+    cmd: "./{{ setup_script }} copy"
+    chdir: "{{ repo_dest }}"
+
+- name: 2. Copy main configuration file
+  ansible.builtin.copy:
+    src: sequential-phrase.json  # my_role/files/app.conf 파일을 의미
+    dest: "{{ working_dir }}/sequential-phrase.json"
+
+- name: 3. Create systemd service files
+  ansible.builtin.template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ service_names }}"
+  register: template_results
+
+- name: 4. Set a fact with the list of services
+  ansible.builtin.set_fact:
+    services: "{{ template_results.results }}"
+
+- name: 5. Ensure service is stoped
+  ansible.builtin.systemd:
+    name: "{{ item.item }}"
+    state: stopped
+    enabled: no
+    daemon_reload: yes
+  loop: "{{ template_results.results }}"
+  become: yes
+
+- name: 6. Start services
+  ansible.builtin.systemd:
+    name: "{{ item.item }}"
+    state: started
+    enabled: no
+    daemon_reload: yes
+  loop: "{{ services }}"
+  become: yes
