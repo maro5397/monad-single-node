@@ -140,8 +140,8 @@ run_copy() {
   echo "3. Copying binaries from monad-cxx..."
   local CXX_BUILD_PATH="$MONAD_ROOT/../monad-bft/monad-cxx/monad-execution/build"
   copy_binary "$CXX_BUILD_PATH/cmd/monad" "$MONAD_ROOT"
-  copy_binary "$CXX_BUILD_PATH/cmd/monad-cli" "$MONAD_ROOT"
-  copy_binary "$CXX_BUILD_PATH/category/mpt/monad-mpt" "$MONAD_ROOT"
+  copy_binary "$CXX_BUILD_PATH/cmd/monad_cli" "$MONAD_ROOT"
+  copy_binary "$CXX_BUILD_PATH/category/mpt/monad_mpt" "$MONAD_ROOT"
   echo ""
 
   echo "Binary copy process completed."
