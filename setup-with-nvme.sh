@@ -59,19 +59,6 @@ run_init() {
   cp "$MONAD_ROOT/config/validators.toml" "$VOL_ROOT/validators/validators.toml"
   echo " - Genesis config file prepared at '$VOL_ROOT/forkpoint/forkpoint.toml', '$VOL_ROOT/validators/validators.toml'."
   echo ""
-  DB_PATH="/dev/triedb"
-  echo "3. Initializing the TrieDB using monad_mpt..."
-  MONAD_MPT_BIN="./monad_mpt"
-  if [ ! -f "$MONAD_MPT_BIN" ]; then echo "Error: '$MONAD_MPT_BIN' not found. Did you run './setup.sh copy'?"; exit 1; fi
-  "$MONAD_MPT_BIN" --storage "$DB_PATH" --create
-  echo " - TrieDB initialization complete."
-  echo ""
-  echo "4. Writing the genesis state using monad..."
-  MONAD_BIN="./monad"
-  if [ ! -f "$MONAD_BIN" ]; then echo "Error: '$MONAD_BIN' not found. Did you run './setup.sh copy'?"; exit 1; fi
-  "$MONAD_BIN" --chain monad_devnet --db "/dev/triedb" --block_db "$VOL_ROOT/node/ledger" --nblocks 0 --log_level ERROR
-  echo " - Genesis state written successfully."
-  echo ""
   echo "Monad development environment has been set up successfully."
 }
 

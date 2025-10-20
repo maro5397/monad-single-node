@@ -1,0 +1,30 @@
+[Unit]
+Description="Service file for Monad Execution"
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/monad \
+    --chain monad_devnet \
+    --db /dev/triedb \
+    --block_db /home/ubuntu/monad-single-node/data/node/ledger \
+    --nblocks 0 \
+    --ro_sq_thread_cpu 1 \
+    --sq_thread_cpu 2 \
+    --log_level INFO
+User=ubuntu
+Restart=no
+Group=ubuntu
+DeviceAllow=/dev/triedb rw
+LimitNOFILE=1048576
+AllowedCPUs=1-7
+CPUAffinity=1,2,3,4,5,6,7
+# Hugemem configs below
+LimitMEMLOCK=infinity
+MemoryDenyWriteExecute=false
+#SystemCallFilter=~@memlock
+ProtectKernelModules=no
+ProtectKernelLogs=no
+
+[Install]
+WantedBy=multi-user.target

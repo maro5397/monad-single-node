@@ -4,3 +4,7 @@ service_names:
   - monad-bft
   - monad-execution
   - monad-rpc
+
+setting_service_names:
+  - monad-mpt
+  - monad-execution-genesis

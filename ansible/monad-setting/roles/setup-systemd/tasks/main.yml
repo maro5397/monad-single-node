@@ -10,6 +10,15 @@
   loop: "{{ service_names }}"
   register: template_results
 
+- name: 1-2. Create systemd setting service files
+  ansible.builtin.template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ setting_service_names }}"
+
 - name: 1-1. Set a fact with the list of services
   ansible.builtin.set_fact:
     services: "{{ template_results.results }}"

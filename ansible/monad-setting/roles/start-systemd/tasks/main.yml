@@ -1,5 +1,21 @@
 ---
 # tasks file for start-systemd
+- name: 0-1. Start monad-mpt setting services
+  ansible.builtin.systemd:
+    name: monad-mpt
+    state: started
+    enabled: no
+    daemon_reload: yes
+  become: yes
+
+- name: 0-2. Start monad-execution-genesis setting services
+  ansible.builtin.systemd:
+    name: monad-execution-genesis
+    state: started
+    enabled: no
+    daemon_reload: yes
+  become: yes
+
 - name: 1. Start services
   ansible.builtin.systemd:
     name: "{{ item.item }}"
