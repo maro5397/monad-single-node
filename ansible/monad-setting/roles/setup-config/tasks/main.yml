@@ -19,6 +19,11 @@
     cmd: "echo 'y' | ./{{ setup_script }} del"
     chdir: "{{ repo_dest }}"
 
+- name: 3. Run cleanup script (copy)
+  ansible.builtin.shell:
+    cmd: "echo 'y' | ./{{ setup_script }} copy"
+    chdir: "{{ repo_dest }}"
+
 - name: 4. Run initialization script (init)
   ansible.builtin.command:
     cmd: "./{{ setup_script }} init"
