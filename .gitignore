@@ -5,6 +5,7 @@ monad_mpt
 monad-keystore
 monad-node
 monad-rpc
+txgen
 sign-name-record
 
 monitoring_logs/
