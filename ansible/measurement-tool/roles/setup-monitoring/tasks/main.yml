@@ -1,0 +1,17 @@
+---
+# tasks file for setup-monitoring
+- name: 1. Clone the monad-monitoring repository
+  ansible.builtin.git:
+    repo: "{{ repo_url }}"
+    dest: "{{ repo_dest }}"
+    version: main
+
+- name: 2. Start monitoring services with Docker Compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ repo_dest }}"
+    files:
+      - "{{ compose_file }}"
+    env_files:
+      - "{{ repo_dest }}/.env"
+    state: present
+  become: yes
