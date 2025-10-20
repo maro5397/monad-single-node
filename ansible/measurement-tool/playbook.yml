@@ -1,7 +1,13 @@
 - name: install dependency
   become: yes
+  hosts: txgen, measurement-tool, monad-monitoring
   roles:
     - dependency
+
+- name: setup monitoring system
+  hosts: monad-monitoring
+  roles:
+    - setup-monitoring
 
 - name: start txgen
   hosts: txgen

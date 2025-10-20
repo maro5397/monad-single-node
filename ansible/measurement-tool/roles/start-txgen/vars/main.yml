@@ -4,3 +4,6 @@ working_dir: "/home/ubuntu/monad-single-node"
 
 service_names:
   - monad-txgen
+
+repo_dest: "/home/{{ ansible_user }}/monad-single-node"
+setup_script: "setup-without-nvme.sh"

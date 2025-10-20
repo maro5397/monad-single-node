@@ -7,7 +7,7 @@
 
 - name: 2. Copy main configuration file
   ansible.builtin.copy:
-    src: sequential-phrase.json  # my_role/files/app.conf 파일을 의미
+    src: sequential-phrase.json
     dest: "{{ working_dir }}/sequential-phrase.json"
 
 - name: 3. Create systemd service files
@@ -19,6 +19,7 @@
     mode: '0644'
   loop: "{{ service_names }}"
   register: template_results
+  become: yes
 
 - name: 4. Set a fact with the list of services
   ansible.builtin.set_fact:
