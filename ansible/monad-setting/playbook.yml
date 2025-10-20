@@ -5,11 +5,6 @@
     - dependency
     - setup-systemd
 
-- name: setup monitoring system
-  hosts: validator
-  roles:
-    - setup-monitoring
-
 - name: setup disk
   hosts: validator
   become: yes

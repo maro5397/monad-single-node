@@ -1,5 +1,0 @@
----
-# vars file for setup-monitoring
-repo_url: "https://github.com/staking4all/monad-monitoring.git"
-repo_dest: "/home/{{ ansible_user }}/monad-monitoring"
-compose_file: "docker-compose-binary.yaml"
