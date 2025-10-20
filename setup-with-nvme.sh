@@ -65,6 +65,14 @@ run_init() {
 # Function to run the 'del' command
 run_del() {
   echo "Starting deletion of the 'data' directory..."
+  echo ""
+  DB_PATH="/dev/triedb"
+  echo "1. Truncating the TrieDB using monad_mpt..."
+  MONAD_MPT_BIN="./monad_mpt"
+  if [ ! -f "$MONAD_MPT_BIN" ]; then echo "Error: '$MONAD_MPT_BIN' not found. Did you run './setup.sh copy'?"; exit 1; fi
+  "$MONAD_MPT_BIN" --storage "$DB_PATH" --truncate --yes
+  echo " - TrieDB Truncating complete."
+  echo ""
   if [ -d "$VOL_ROOT" ]; then
     read -p "Are you sure you want to permanently delete the '$VOL_ROOT' directory and all its contents? (y/N): " confirm
     if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
