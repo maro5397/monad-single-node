@@ -10,3 +10,5 @@ sign-name-record
 
 monitoring_logs/
 report/
+
+./sequential-phrase.json
