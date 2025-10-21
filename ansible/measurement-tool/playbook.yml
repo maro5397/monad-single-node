@@ -1,5 +1,4 @@
 - name: install dependency
-  become: yes
   hosts: txgen, measurement-tool, monad-monitoring
   roles:
     - dependency
