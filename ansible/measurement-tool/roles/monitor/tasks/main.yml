@@ -2,11 +2,11 @@
 # tasks file for monitor
 
 - name: Get PID for each Monad service
-  ansible.builtin.shell: "systemctl status {{ item }} | grep 'Main PID' | awk '{print $3}'"
+  ansible.builtin.shell: "systemctl show {{ item }} -p MainPID --value"
   loop: "{{ services }}"
   register: service_pids
   changed_when: false
-  failed_when: service_pids.rc != 0 and 'could not be found' not in service_pids.stderr
+  failed_when: false
 
 - name: Create a list of fetched PIDs
   ansible.builtin.set_fact:
