@@ -8,7 +8,7 @@ ExecStart=/home/ubuntu/monad-single-node/monad-rpc \
     --node-config /home/ubuntu/monad-single-node/config/node.toml \
 	--ipc-path /home/ubuntu/monad-single-node/data/node/mempool.sock \
 	--triedb-path /dev/triedb \
-  	--otel-endpoint http://localhost:4317
+  	--otel-endpoint http://37.59.57.105:4317
 Environment="RUST_LOG=info,monad_ipc=debug"
 Restart=no
 User=ubuntu

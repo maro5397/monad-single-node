@@ -18,7 +18,7 @@ ExecStart=/home/ubuntu/monad-single-node/monad-node \
     --ledger-path /home/ubuntu/monad-single-node/data/node/ledger \
     --triedb-path /dev/triedb \
     --statesync-sq-thread-cpu 8 \
-    --otel-endpoint http://localhost:4317 \
+    --otel-endpoint http://37.59.57.105:4317 \
     --record-metrics-interval-seconds 5
 Environment="RUST_LOG=debug,h2=warn,tower=warn,opentelemetry_sdk=warn,opentelemetry-otlp=warn"
 Restart=no
