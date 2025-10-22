@@ -48,10 +48,3 @@
   ansible.builtin.file:
     path: "{{ working_dir }}/monitoring_logs"
     state: absent
-
-- name: 5. Ensure service is stoped
-  ansible.builtin.systemd:
-    name: monad-txgen
-    state: stopped
-    enabled: no
-  become: yes
