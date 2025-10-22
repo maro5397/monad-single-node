@@ -1,10 +1,10 @@
 - name: install dependency
-  hosts: txgen, measurement-tool, monad-monitoring
+  hosts: txgen, measurement-tool
   roles:
     - dependency
 
 - name: setup monitoring system
-  hosts: monad-monitoring
+  hosts: txgen
   roles:
     - setup-monitoring
 
