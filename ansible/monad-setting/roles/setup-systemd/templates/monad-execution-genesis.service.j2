@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/monad \
+ExecStart=/home/ubuntu/monad-single-node/monad \
     --chain monad_devnet \
     --db /dev/triedb \
     --block_db /home/ubuntu/monad-single-node/data/node/ledger \
